@@ -12,7 +12,7 @@ class Character:
         self.max_mp = mp
         self.current_mp = self.max_mp
         self.level = 1
-        self.max_exp = 100  # 필요경험치량은 레벨에 비례
+        self.max_exp = 100
         self.current_exp = 0    # 처음 경험치는 0으로 시작해서 몬스터를 잡을때마다 올라야함
         # 잉여경험치 = 현재경험치 - 최대경험치 / 현재 경험치 초기화 후에 +잉여경험치
         self.strength = strength
@@ -57,6 +57,79 @@ class Character:
                  Potion("포션", 30), Junk("꽝!")]
         item = random.choice(items)
         return item
+
+    # 무기 장착 함수
+    def equip_wepon(self, wepon):
+        if self.wepon is None:
+            self.wepon = wepon
+            self.max_hp += wepon.hp
+            self.max_mp += wepon.mp
+            self.strength += wepon.strength
+            self.dexterity += wepon.dexterity
+            self.intelligence += wepon.intelligence
+            print(f"{self.name}은 {self.wepon.name}을 장착하였습니다")
+            self.update_status()
+        else:
+            while True:
+                answer = input(
+                    f"{self.name}은 {self.wepon.name}을 장착 중입니다, 교체하시겠습니까? (Y/N)")
+                if answer.upper() == "Y":
+                    self.wepon = wepon
+                    self.max_hp += wepon.hp
+                    self.max_mp += wepon.mp
+                    self.strength += wepon.strength
+                    self.dexterity += wepon.dexterity
+                    self.intelligence += wepon.intelligence
+                    print(f"{self.name}은 {wepon.name}을 장착하였습니다!")
+                    self.update_status()
+                    break
+                elif answer.upper() == "N":
+                    print(f"{self.name}은 {wepon.name}을 장착하지 않았습니다!")
+                    break
+                else:
+                    print("Y/N 으로 입력해주세요.")
+
+
+# 방어구 장착 함수
+
+    def equip_armor(self, armor):
+        if self.armor is None:
+            self.armor = armor
+            self.max_hp += armor.hp
+            self.max_mp += armor.mp
+            self.strength += armor.strength
+            self.dexterity += armor.dexterity
+            self.intelligence += armor.intelligence
+            print(f"{self.name}은 {self.armor.name}을 장착하였습니다")
+            self.update_status()
+        else:
+            while True:
+                answer = input(
+                    f"{self.name}은 {self.armor.name}을 장착 중입니다, 교체하시겠습니까? (Y/N)")
+                if answer.upper() == "Y":
+                    self.armor = armor
+                    self.max_hp += armor.hp
+                    self.max_mp += armor.mp
+                    self.strength += armor.strength
+                    self.dexterity += armor.dexterity
+                    self.intelligence += armor.intelligence
+                    print(f"{self.name}은 {armor.name}을 장착하였습니다!")
+                    self.update_status()
+                    break
+                elif answer.upper() == "N":
+                    print(f"{self.name}은 {armor.name}을 장착하지 않았습니다!")
+                    break
+                else:
+                    print("Y/N 으로 입력해주세요.")
+
+
+# 포션 사용 함수
+
+    def use_potion(self, potion):
+        self.hp += potion.hp_recovery
+        self.mp += potion.mp_recovery
+        print(f"{self.name}이 {potion.name}을 사용했습니다!")
+        self.update_status()
 
 
 # 전사 클래스
@@ -206,6 +279,119 @@ class Item:
         self.hp = hp
         self.mp = mp
         self.power = power
+
+    # def use(self, player):
+    #     print(f"{player.name}이(가) {self.name}을(를) 사용합니다.")
+    #     # print(f"{self.name}: HP {self.hp}, MP {self.mp}, power {self.power}")
+
+
+class Weapon(Item):
+    def __init__(self, name, power):
+        super().__init__(name)
+        self.power = power
+
+    def use(self, player):
+        print(f"{player.name}이(가) {self.name}을(를) 장착합니다.")
+        player.power += self.power
+
+
+class Armor(Item):
+    def __init__(self, name, hp):
+        super().__init__(name)
+        self.hp = hp
+
+    def use(self, player):
+        print(f"{player.name}이(가) {self.name}을(를) 장착합니다.")
+        player.hp += self.hp
+
+
+class Potion(Item):
+    def __init__(self, name, amount):
+        super().__init__(name)
+        self.amount = amount
+
+    def use(self, player):
+        print(f"{player.name}이(가) {self.name}을(를) 사용합니다.")
+        player.hp += self.amount
+        player.mp += self.amount
+        print(f"{player.name}의 HP와 MP가 {self.amount}만큼 회복됩니다.")
+
+
+class Junk(Item):
+    def __init__(self, name):
+        super().__init__(name)
+
+    def use(self, player):
+        print(f"{player.name}이(가) {self.name}을(를) 사용합니다.")
+        print(f"하지만 효과가 없습니다...{self.name}은 쓸모가 없습니다...")
+
+
+class WeaponInfo:
+    def __init__(self, name, hp, mp, strength, dexterity, intelligence):
+        self.name = name
+        self.hp = hp
+        self.mp = mp
+        self.strength = strength
+        self.dexterity = dexterity
+        self.intelligence = intelligence
+# 더 해줄 능력치 작성
+# name, hp, mp, strength, dexterity, intelligence
+
+# 무기 정보 출력 함수
+    def show_item(self):
+        print(f"{self.name}  옵션 hp:{self.hp}  mp:{self.mp}  strength:{self.strength}  dexterity:{self.dexterity}  intelligence:{self.intelligence}")
+
+
+class ArmorInfo(WeaponInfo):
+    def __init__(self, name, hp, mp, strength, dexterity, intelligence):
+        super().__init__(name, hp, mp, strength, dexterity, intelligence)
+
+    def show_item(self):
+        super().show_item()
+# wepon클래스와 구조가 같아 상속받아 사용
+
+
+# 포션 생성 클래스
+class PotionInfo:
+    def __init__(self, name, hp_recovery, mp_recovery):
+        self.name = name
+        self.hp_recovery = hp_recovery
+        self.mp_recovery = mp_recovery
+
+
+# 포션
+red_potion = PotionInfo('red_potion', (you.max_hp-you.current_hp), 0)
+blue_potion = PotionInfo('blue_potion', 0, (you.max_mp-you.current_mp))
+
+# 전사 무기
+# name, hp, mp, strength, dexterity, intelligence 순서
+wood_clup = WeaponInfo('wood_clup', 10, 0, 5, 0, 0)
+great_clup = WeaponInfo('great_clup', 30, 0, 5, 5, 0)
+battle_axe = WeaponInfo('battle_axe', 30, 20, 10, 5, 0)
+claymore = WeaponInfo('claymore', 30, 25, 20, 5, 0)
+short_sword = WeaponInfo('short_sword', 10, 0, 10, 0, 0)
+great_sword = WeaponInfo('great_sword', 30, 0, 60, 10, 0)
+flashing_light_stick = WeaponInfo('flashing_light_stick', 50, 50, 100, 100, 30)
+
+# 궁수 무기
+# name, hp, mp, strength, dexterity, intelligence 순서
+short_bow = WeaponInfo('short_bow', 10, 10, 20, 5, 10)
+long_bow = WeaponInfo('long_bow', 15, 5, 30, 10, 15)
+composite_bow = WeaponInfo('composite_bow', 15, 10, 30, 15, 10)
+oriental_bow = WeaponInfo('oriental_bow', 20, 20, 30, 30, 30)
+is_this_a_real_bow = WeaponInfo('is_this_a_real_bow', 50, 50, 50, 50, 0)
+fire_breathing_staff = WeaponInfo('fire_breathing_staff', 5, 5, 100, 0, 30)
+
+# 마법사 무기
+# name, hp, mp, strength, dexterity, intelligence 순서
+wand = WeaponInfo('wand', 5, 20, 5, 20, 10)
+wood_staff = WeaponInfo('wood_staff', 5, 25, 5, 25, 10)
+Grimoire_of_Eyes_in_a_Triangle = (
+    'Grimoire_of_Eyes_in_a_Triangle', 3, 33, 3, 33, 3)
+needlessly_large_rod = ('needlessly_large_rod', 5, 60, 0, 60, 0)
+elder_wand = WeaponInfo('elder_wand', 20, 30, 5, 50, 0)
+middle_eastern_magic_wand = WeaponInfo(
+    'middle_eastern_magic_wand', 50, 50, 100, 100, 20)
 
 
 # 일반 몬스터 딕셔너리

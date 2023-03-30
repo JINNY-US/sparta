@@ -1,28 +1,47 @@
 class Character:
-    def __init__(self, name, hp, mp, level, strength, dexterity, intelligence):
+    def __init__(self, name, hp, mp, strength, dexterity, intelligence):
         self.name = name
-        self.max_hp = hp + self.level*50    # 레벨이 높으면 hp도 레벨에 비례해서 높아짐
+        self.max_hp = hp
         self.current_hp = self.max_hp
-        self.max_mp = mp + self.level*30    # 레벨이 높으면 mp도 레벨에 비례해서 높아짐
+        self.max_mp = mp
         self.current_mp = self.max_mp
-        self.normal_damage = self.strength*1.5 + self.dexterity + \
-            self.intelligence*0.5  # 일반데미지는 힘3:민첩2:지능1 비율로 영향
-        self.level = level
-        self.max_exp = 50 + self.level*50  # 필요경험치량은 레벨에 비례
-        self.current_exp = 0    # 처음 경험치는 0으로 시작해서 몬스터를 잡을때마다 올라야함 14층 클리어 기준 lv.13달성
+        self.level = 1
+        self.max_exp = 100
+        self.current_exp = 0    # 처음 경험치는 0으로 시작해서 몬스터를 잡을때마다 올라야함
         # 잉여경험치 = 현재경험치 - 최대경험치 / 현재 경험치 초기화 후에 +잉여경험치
         self.strength = strength
         self.dexterity = dexterity
         self.intelligence = intelligence
+        self.normal_damage = self.strength*1.5 + self.dexterity + \
+            self.intelligence*0.5  # 일반데미지는 힘3:민첩2:지능1 비율로 영향
         self.alive = True
 
-    def demage(self, target):
-        self.max_hp -= self.nomal_damage
-        if self.current_hp <= 0:
-            self.alive = False
+    def normal_attack(self, target):
+        attack_damage = random.randint(
+            int(self.normal_damage*0.8), int(self.normal_damage*1.3))
+        print(f"{self.name}의 별로 안아픈 공격 ! ")
+        target.current_hp -= attack_damage
+        print(f"{target.name}에게 {attack_damage}의 피해를 입혔다 ! ")
+        if target.current_hp <= 0:
+            print(f"{target.name}이 쓰러졌다 !")
+            target.alive = False
 
-    def skill_attack(self, target):
-        pass
+    # def skill_attack(self, target):
+    #     self.current_mp -= 10
+    #     if self.current_mp - 10 < 0:
+    #         print("마나가 부족합니다")
+    #         return
+    #     skill_damage = random.randint(
+    #         int(self.skill_damage*1.3), int((self.skill_damage*2.0)))
+    #     target.current_hp -= skill_damage
+    #     print(f"{target.name}에게 {skill_damage}의 피해를 입혔다 ! ")
+    #     if target.current_hp <= 0:
+    #         print(f"{target.name}이 쓰러졌다 !")
+    #         self.alive = False
+
+       # 캐릭터 상태
+    def update_status(self):
+        print(f"{self.name}의 현재 상태: HP {self.current_hp} / {self.max_hp}, MP {self.current_mp} / {self.max_mp}, 경험치:{self.current_exp} / {self.max_exp} 레벨 :{self.level} lv / 힘 : {self.strength} / 민첩 : {self.dexterity} / 지능 : {self.intelligence}")
 
 
 class player(Character):
@@ -88,7 +107,6 @@ class player(Character):
 
 
 # 포션 사용 함수
-
 
     def use_potion(self, potion):
         self.hp += potion.hp_recovery
