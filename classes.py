@@ -64,19 +64,24 @@ class Character:
             print(f"{self.name}은 {self.weapon.name}을 장착하였습니다")
             self.update_status()
         else:
-            answer = input(
-                f"{self.name}은 {self.weapon.name}을 장착 중입니다, 교체하시겠습니까? (Y/N)")
-            if answer.upper() == "Y":
-                self.weapon = weapon
-                self.max_hp += weapon.hp
-                self.max_mp += weapon.mp
-                self.strength += weapon.strength
-                self.dexterity += weapon.dexterity
-                self.intelligence += weapon.intelligence
-                print(f"{self.name}은 {weapon.name}을 장착하였습니다!")
-                self.update_status()
-            else:
-                print(f"{self.name}은 {weapon.name}을 장착하지 않았습니다!")
+            while True:
+                print(f"{self.name}은 {self.weapon.name}을 장착 중입니다, 교체하시겠습니까? (Y/N)")
+                answer = input()
+                if answer.upper() == "Y":
+                    self.weapon = weapon
+                    self.max_hp += weapon.hp
+                    self.max_mp += weapon.mp
+                    self.strength += weapon.strength
+                    self.dexterity += weapon.dexterity
+                    self.intelligence += weapon.intelligence
+                    print(f"{self.name}(당신)은 {weapon.name}을 장착하였습니다!")
+                    self.update_status()
+                    break
+                elif answer.upper() == "N":
+                    print(f"{self.name}(당신)은 {weapon.name}을 장착하지 않았습니다!")
+                    break
+                else:
+                    print("잘못 입력하셨습니다. 다시 선택해주세요.")
 
 # 방어구 장착 함수
     def equip_armor(self, armor):
@@ -90,19 +95,24 @@ class Character:
             print(f"{self.name}은 {self.armor.name}을 장착하였습니다")
             self.update_status()
         else:
-            answer = input(
-                f"{self.name}은 {self.armor.name}을 장착 중입니다, 교체하시겠습니까? (Y/N)")
-            if answer.upper() == "Y":
-                self.armor = armor
-                self.max_hp += armor.hp
-                self.max_mp += armor.mp
-                self.strength += armor.strength
-                self.dexterity += armor.dexterity
-                self.intelligence += armor.intelligence
-                print(f"{self.name}은 {armor.name}을 장착하였습니다!")
-                self.update_status()
-            else:
-                print(f"{self.name}은 {armor.name}을 장착하지 않았습니다!")
+            while True:
+                print(f"{self.name}은 {self.armor.name}을 장착 중입니다, 교체하시겠습니까? (Y/N)")
+                answer = input()
+                if answer.upper() == "Y":
+                    self.armor = armor
+                    self.max_hp += armor.hp
+                    self.max_mp += armor.mp
+                    self.strength += armor.strength
+                    self.dexterity += armor.dexterity
+                    self.intelligence += armor.intelligence
+                    print(f"{self.name}(당신)은 {armor.name}을 장착하였습니다!")
+                    self.update_status()
+                    break
+                elif answer.upper() == "N":
+                    print(f"{self.name}(당신)은 {armor.name}을 장착하지 않았습니다!")
+                    break
+                else:
+                    print("잘못 입력하셨습니다. 다시 선택해주세요.")
 
 
 # 포션 사용 함수
