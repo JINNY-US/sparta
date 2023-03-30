@@ -53,14 +53,30 @@ def clear():
 
 
 class Player:
-    def __init__(self, name, hp, mp, power, attack_normal, magic_power, attack_magic):
+    def __init__(self, name, hp, mp, power, attack_normal, magic_power, attack_magic, strength, dexterity, intelligence):
         self.name = name
         self.hp = hp
+        self.current_hp = self.max_hp
         self.mp = mp
+        self.current_mp = self.max_mp
         self.power = power
-        self.attack_nomal = pygame.mixer.Sound("bgm/attack_normal.wav")
+        self.attack_nomal = pygame.mixer.Sound(
+            "bgm/attack_normal.wav")                 # 기본 공격 효과음
         self.magic_power = magic_power
-        self.attack_magic = pygame.mixer.Sound("bgm/attack_magic.wav")
+        self.attack_magic = pygame.mixer.Sound(
+            "bgm/attack_magic.wav")                  # 마법 공격 효과음
+        self.level = 1
+        self.max_exp = 100  # 필요경험치량은 레벨에 비례
+        self.current_exp = 0    # 처음 경험치는 0으로 시작해서 몬스터를 잡을때마다 올라야함
+        # 잉여경험치 = 현재경험치 - 최대경험치 / 현재 경험치 초기화 후에 +잉여경험치
+        self.strength = strength
+        self.dexterity = dexterity
+        self.intelligence = intelligence
+        self.normal_damage = self.strength*1.5 + self.dexterity + \
+            self.intelligence*0.5  # 일반데미지는 힘3:민첩2:지능1 비율로 영향
+        self.alive = True
+
+    # attack(), normal_attack() 두 개 취합 필요
 
     def attack(self):
         print("어떤 공격을 사용하시겠습니까?")
@@ -77,6 +93,29 @@ class Player:
                 return "magic"
             else:
                 print("잘못된 입력입니다. 다시 입력해주세요.")
+
+    def normal_attack(self, target):
+        attack_damage = random.randint(
+            int(self.normal_damage*0.8), int(self.normal_damage*1.3))
+        print(f"{self.name}의 별로 안아픈 공격 ! ")
+        target.current_hp -= attack_damage
+        print(f"{target.name}에게 {attack_damage}의 피해를 입혔다 ! ")
+        if target.current_hp <= 0:
+            print(f"{target.name}이 쓰러졌다 !")
+            target.alive = False
+
+    # 캐릭터 상태
+    def update_status(self):
+        print(f"{self.name}의 현재 상태: HP {self.current_hp} / {self.max_hp}, MP {self.current_mp} / {self.max_mp}, 경험치:{self.current_exp} / {self.max_exp} 레벨 :{self.level} lv / 힘 : {self.strength} / 민첩 : {self.dexterity} / 지능 : {self.intelligence}")
+
+    # 아이템 획득 작성 칸 get_item
+    # 아이템 종류 및 능력치는 찬호님이 고쳐주시겠죠??
+    @staticmethod
+    def get_item():
+        items = [Weapon("무기", 10), Armor("갑옷", 20),
+                 Potion("포션", 30), Junk("꽝!")]
+        item = random.choice(items)
+        return item
 
 
 clear()
