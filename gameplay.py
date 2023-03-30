@@ -35,7 +35,7 @@ clear()
 
 print("Configuring...")
 time.sleep(1)
-for g in tqdm(range(100)):
+for g in tqdm(range(30)):
     time.sleep(0.1)
 clear()
 

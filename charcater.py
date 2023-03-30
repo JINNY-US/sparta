@@ -21,6 +21,8 @@ class Character:
         self.normal_damage = self.strength*1.5 + self.dexterity + \
             self.intelligence*0.5  # 일반데미지는 힘3:민첩2:지능1 비율로 영향
         self.alive = True
+        self.weapon = None
+        self.armor = None
 
     def normal_attack(self, target):
         attack_damage = random.randint(
@@ -45,7 +47,7 @@ class Character:
     #         print(f"{target.name}이 쓰러졌다 !")
     #         self.alive = False
 
-       # 캐릭터 상태
+    # 캐릭터 상태
     def update_status(self):
         print(f"{self.name}의 현재 상태: HP {self.current_hp} / {self.max_hp}, MP {self.current_mp} / {self.max_mp}, 경험치:{self.current_exp} / {self.max_exp} 레벨 :{self.level} lv / 힘 : {self.strength} / 민첩 : {self.dexterity} / 지능 : {self.intelligence}")
 
@@ -59,32 +61,32 @@ class Character:
         return item
 
     # 무기 장착 함수
-    def equip_wepon(self, wepon):
-        if self.wepon is None:
-            self.wepon = wepon
-            self.max_hp += wepon.hp
-            self.max_mp += wepon.mp
-            self.strength += wepon.strength
-            self.dexterity += wepon.dexterity
-            self.intelligence += wepon.intelligence
-            print(f"{self.name}은 {self.wepon.name}을 장착하였습니다")
+    def equip_weapon(self, weapon):
+        if self.weapon is None:
+            self.wepon = weapon
+            self.max_hp += weapon.hp
+            self.max_mp += weapon.mp
+            self.strength += weapon.strength
+            self.dexterity += weapon.dexterity
+            self.intelligence += weapon.intelligence
+            print(f"{self.name}은 {self.weapon.name}을 장착하였습니다")
             self.update_status()
         else:
             while True:
                 answer = input(
-                    f"{self.name}은 {self.wepon.name}을 장착 중입니다, 교체하시겠습니까? (Y/N)")
+                    f"{self.name}은 {self.weapon.name}을 장착 중입니다, 교체하시겠습니까? (Y/N)")
                 if answer.upper() == "Y":
-                    self.wepon = wepon
-                    self.max_hp += wepon.hp
-                    self.max_mp += wepon.mp
-                    self.strength += wepon.strength
-                    self.dexterity += wepon.dexterity
-                    self.intelligence += wepon.intelligence
-                    print(f"{self.name}은 {wepon.name}을 장착하였습니다!")
+                    self.wepon = weapon
+                    self.max_hp += weapon.hp
+                    self.max_mp += weapon.mp
+                    self.strength += weapon.strength
+                    self.dexterity += weapon.dexterity
+                    self.intelligence += weapon.intelligence
+                    print(f"{self.name}은 {weapon.name}을 장착하였습니다!")
                     self.update_status()
                     break
                 elif answer.upper() == "N":
-                    print(f"{self.name}은 {wepon.name}을 장착하지 않았습니다!")
+                    print(f"{self.name}은 {weapon.name}을 장착하지 않았습니다!")
                     break
                 else:
                     print("Y/N 으로 입력해주세요.")
@@ -472,7 +474,7 @@ else:
 floor = 1
 while floor <= 15:
     # 현재 층의 몬스터 리스트 가져오기
-    monster_list = eval(f"floor{floor}")
+    monster_list = classes.eval(f"floor{floor}")
 
     print(f"\n{floor}층에 입장했습니다. 이곳에서는 {len(monster_list)}마리의 몬스터와 전투합니다.")
 
