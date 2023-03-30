@@ -153,27 +153,27 @@ wood_clup = wepon('wood_clup', 10, 0, 5, 0, 0)
 great_clup = wepon('great_clup', 30, 0, 5, 5, 0)
 battle_axe = wepon('battle_axe', 30, 20, 10, 5, 0)
 claymore = wepon('claymore', 30, 25, 20, 5, 0)
-short_sword = wepon('short_sword', 10, 0, 10, 0, 0)
-great_sword = wepon('great_sword', 30, 0, 60, 10, 0)
-flashing_light_stick = wepon('flashing_light_stick', 50, 50, 100, 100, 30)
+short_sword = wepon('short_sword', 10, 0, 5, 0, 0)
+great_sword = wepon('great_sword', 30, 25, 20, 10, 0)
+flashing_light_stick = wepon('flashing_light_stick', 50, 50, 40, 20, 30)
 # 궁수 무기
 # name, hp, mp, strength, dexterity, intelligence 순서
-short_bow = wepon('short_bow', 10, 10, 20, 5, 10)
-long_bow = wepon('long_bow', 15, 5, 30, 10, 15)
-composite_bow = wepon('composite_bow', 15, 10, 30, 15, 10)
-oriental_bow = wepon('oriental_bow', 20, 20, 30, 30, 30)
-is_this_a_real_bow = wepon('is_this_a_real_bow', 50, 50, 50, 50, 0)
-fire_breathing_staff = wepon('fire_breathing_staff', 5, 5, 100, 0, 30)
+short_bow = wepon('short_bow', 10, 0, 5, 5, 0)
+long_bow = wepon('long_bow', 10, 5, 5, 10, 15)
+composite_bow = wepon('composite_bow', 15, 10, 5, 15, 10)
+oriental_bow = wepon('oriental_bow', 15, 10, 10, 20, 5)
+is_this_a_real_bow = wepon('is_this_a_real_bow', 30, 20, 15, 30, 0)
+fire_breathing_staff = wepon('fire_breathing_staff', 50, 30, 30, 40, 30)
 # 마법사 무기
 # name, hp, mp, strength, dexterity, intelligence 순서
-wand = wepon('wand', 5, 20, 5, 20, 10)
-wood_staff = wepon('wood_staff', 5, 25, 5, 25, 10)
+wand = wepon('wand', 5, 20, 0, 0, 10)
+wood_staff = wepon('wood_staff', 5, 25, 0, 5, 10)
 Grimoire_of_Eyes_in_a_Triangle = (
-    'Grimoire_of_Eyes_in_a_Triangle', 3, 33, 3, 33, 3)
-needlessly_large_rod = ('needlessly_large_rod', 5, 60, 0, 60, 0)
-elder_wand = wepon('elder_wand', 20, 30, 5, 50, 0)
+    'Grimoire_of_Eyes_in_a_Triangle', 3, 3, 3, 3, 33)
+needlessly_large_rod = ('needlessly_large_rod', 20, 60, 0, 0, 20)
+elder_wand = wepon('elder_wand', 20, 50, 5, 0, 30)
 middle_eastern_magic_wand = wepon(
-    'middle_eastern_magic_wand', 50, 50, 100, 100, 20)
+    'middle_eastern_magic_wand', 50, 50, 5, 5, 30)
 
 
 # 데미지 공식 str *1.5 + dex + int *0.5  기본공격 = 데미지 *0.8 ~ 1.3(공통)
