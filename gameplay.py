@@ -28,28 +28,16 @@ def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
-clear()
 print("Loading...")
 time.sleep(3)
-
-
-def clear():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-
 clear()
+
+
 print("Configuring...")
-time.sleep(3)
+time.sleep(1)
 for g in tqdm(range(100)):
     time.sleep(0.1)
-
-
-def clear():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-
-def clear():
-    os.system('cls' if os.name == 'nt' else 'clear')
+clear()
 
 
 class Player:
@@ -86,13 +74,15 @@ class Player:
         while True:
             attack_type = input("숫자를 입력하세요: ")
             if attack_type == "1":
-                self.attack_nomal.play()
+                player.attack_hit()
                 return "normal"
             elif attack_type == "2":
-                self.attack_magic.play()
+                player.magic_hit()
                 return "magic"
             else:
                 print("잘못된 입력입니다. 다시 입력해주세요.")
+                time.sleep(1)  # 1초의 딜레이
+                clear()  # 화면을 지움
 
     def normal_attack(self, target):
         attack_damage = random.randint(
@@ -156,6 +146,8 @@ print(f"파워: {player.power}")
 print(f"기본공격: {player.attack_nomal}")
 print(f"마법파워: {player.magic_power}")
 print(f"마법공격: {player.attack_magic}")
+time.sleep(2)  # 2초의 딜레이
+clear()  # 화면을 지움
 
 # @@@@@@@@@@@Monster calss@@@@@@@@@@@
 
@@ -165,17 +157,16 @@ class Monster:
         self.name = name
         self.hp = hp
         self.monster_hit = monster_hit
+        pygame.mixer.init()  # pygame 모듈 초기화
 
     def normal_attack(self):
-        # 몬스터가 일반공격을 할 때 효과음을 재생합니다.
+        # 몬스터가 일반공격을 할 때 효과음 재생
         pygame.mixer.Sound("bgm/monster_hit.wav").play()
-        # 여기서 일반공격의 로직을 구현합니다.
-        # ...
 
 
 # 몬스터 생성
 name = "이세계_슬라임"
-hp = random.randint(500, 1000)
+hp = random.randint(70, 100)
 monster_hit = random.randint(1, 3)
 
 
@@ -185,6 +176,8 @@ monster = Monster(name, hp, monster_hit)
 print(f"몬스터 이름: {monster.name}")
 print(f"체력: {monster.hp}")
 print(f"일반공격: {monster.monster_hit}")
+time.sleep(3)  # 1초의 딜레이
+clear()  # 화면을 지움
 
 
 def battle(player, monster):
@@ -199,16 +192,21 @@ def battle(player, monster):
             damage = random.randint(player.power - 2, player.power + 2)
             monster.hp = max(monster.hp - damage, 0)
             print(f"{player.name}의 일반공격! {monster.name}에게 {damage}의 데미지를 입혔습니다.")
+            time.sleep(3)  # 1초의 딜레이
+            clear()  # 화면을 지움
         else:
             if player.mp < 5:
                 print("마나가 부족합니다. 일반공격을 사용하세요.")
+                time.sleep(2)  # 1초의 딜레이
+                clear()  # 화면을 지움
                 continue
             damage = random.randint(
                 player.magic_power - 4, player.magic_power + 4)
             player.mp -= 5
             monster.hp = max(monster.hp - damage, 0)
             print(f"{player.name}의 마법공격! {monster.name}에게 {damage}의 데미지를 입혔습니다.")
-
+            time.sleep(2)  # 1초의 딜레이
+            clear()  # 화면을 지움
         if monster.hp == 0:
             print(f"{monster.name}이(가) 쓰러졌습니다.")
             print(f"{player.name}의 승리!")
@@ -219,16 +217,21 @@ def battle(player, monster):
         damage = random.randint(monster_hit - 2,
                                 monster_hit + 2)
         player.hp = max(player.hp - damage, 0)
-        print(f"{monster.name}의 공격! {player.name}에게 {damage}의 데미지를 입혔습니다.")
+        print(f"{monster.name}의 공격!\n {player.name}에게 {damage}의 데미지를 입혔습니다.")
+        time.sleep(3)  # 1초의 딜레이
 
         if player.hp == 0:
             print(f"{player.name}이(가) 쓰러졌습니다.")
             print(f"{player.name}의 패배!")
             break
 
+        monster.normal_attack()
+
         # 상태 출력
         print(f"{player.name}: HP {player.hp}, MP {player.mp}")
         print(f"{monster.name}: HP {monster.hp}")
+        time.sleep(2)  # 1초의 딜레이
+        clear()  # 화면을 지움
 
 
 battle(player, monster)
