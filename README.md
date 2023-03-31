@@ -15,3 +15,6 @@
 ***   
 
 Python 사용   
+
+실행 전 요구사항   
+tqdm, pygame 모듈 설치   
