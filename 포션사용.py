@@ -1,5 +1,7 @@
 # 랜덤 모듈 임포트
 import random
+import sys
+import os
 
 # 플래이어 틀
 
