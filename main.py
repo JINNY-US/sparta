@@ -28,7 +28,7 @@ loading_sound = pygame.mixer.Sound("bgm/loding.mp3")
 loading_sound.play()  # -1 을 하면 무한 반복한다.(게임이 끝나면 꺼짐)
 loading_sound.set_volume(0.1)
 
-f = open("img/fq.txt", 'r', encoding='UTF8')
+f = open("img/moals.txt", 'r', encoding='UTF8')
 lines = f.readlines()
 for line in lines:
     line = line.strip()     # 줄 끝의 줄 바꿈 문자를 제거한다.
@@ -63,30 +63,37 @@ clear()
 
 
 # @@@@@@@앞 스토리@@@@@@@@@@@@@@
-# print("어금니의 탑에 오신걸 환영합니다!!")
-# time.sleep(3)
-# clear()
+print("어금니의 탑에 오신걸 환영합니다!!")
+time.sleep(3)
+clear()
 
-# print("어금니 탑을 공략하기 앞서 간단한 설명 드리겠읍니다!!")
-# time.sleep(3)
-# clear()
+print("어금니 탑을 공략하기 앞서 간단한 설명 드리겠읍니다!!")
+time.sleep(3)
+clear()
 
-# print("1. 총 15층이 있고 1층 올라갈수록 몬스터들이 강해집니다!!")
-# time.sleep(3)
-# clear()
+print("1. 총 15층이 있고 1층 올라갈수록 몬스터들이 강해집니다!!")
+time.sleep(3)
+clear()
 
-# print("2.몬스터를 잡으면 템,포션을 드랍할 수 있습니다.(꽝 나옴!!)")
-# time.sleep(3)
-# clear()
+print("2.몬스터를 잡으면 템,포션을 드랍할 수 있습니다.(꽝 나옴!!)")
+time.sleep(3)
+clear()
 
-# print("3.5층씩 올라 갈때마다 보스가 등장하며, 보스 전 층에 레어 몬스터가 있습니다!!")
-# time.sleep(3)
-# clear()
+print("3.5층씩 올라 갈때마다 보스가 등장하며, 보스 전 층에 레어 몬스터가 있습니다!!")
+time.sleep(3)
+clear()
 
-# print("그럼,어금니 탑에 입장하겠습니다!")
-# time.sleep(3)
-# clear()
+print("그럼,어금니 탑에 입장하겠습니다!")
+time.sleep(3)
+clear()
 
+
+# @@@@@@@@@@@@@@@@@@플레이어@@@@@@@@@@@@@@@@@@
+loading_sound.stop()  # 로딩 배경음악 중지
+
+sound = pygame.mixer.Sound("bgm/music.mp3")  # 플레이어 생성 배경음악
+sound.play(-1)  # -1 을 하면 무한 반복한다.(게임이 끝나면 꺼짐)
+sound.set_volume(0.1)
 
 # 플레이어 이름 생성
 print("플레이어 이름 입력 :  ")
@@ -165,6 +172,13 @@ while floor <= 15:
         monster.alive = True
 
     clear()
+    # @@@@@@@@@@@@@@@@@@몬스터 배경음악@@@@@@@@@@@@@@@@@@
+    pygame.init()  # pygame을 진행할 때 꼭 초기화를 해줘야한다.
+    loading_sound.stop()  # 플레이어 배경음악 종료
+    loading_sound = pygame.mixer.Sound("bgm/monster.mp3")
+    loading_sound.play()  # -1 을 하면 무한 반복한다.(게임이 끝나면 꺼짐)
+    loading_sound.set_volume(0.1)
+
     print(f"어금니의{floor}층에 입장했습니다. 이곳에서는 {len(monster_list)}마리의 몬스터와 전투합니다.")
     time.sleep(0.5)
     # 14층에 대한 이벤트 작성 칸...나중에 입력할게요 넵
