@@ -35,11 +35,7 @@ loading_sound = pygame.mixer.Sound("bgm/loding.mp3")
 loading_sound.play()  # -1 을 하면 무한 반복한다.(게임이 끝나면 꺼짐)
 loading_sound.set_volume(0.1)
 
-<<<<<<< HEAD
 f = open("img/moals.txt", 'r', encoding='UTF8')
-=======
-f = open("img/어금니.txt", 'r', encoding='UTF8')
->>>>>>> ba5f3d9970a42b1e117c832024b885260280760d
 lines = f.readlines()
 for line in lines:
     line = line.strip()     # 줄 끝의 줄 바꿈 문자를 제거한다.
@@ -49,7 +45,6 @@ f.close()
 time.sleep(0.5)
 clear()
 
-<<<<<<< HEAD
 # 다음 출력을 새페이지로 넘김
 
 f = open("img/fq.txt", 'r', encoding='UTF8')
@@ -62,8 +57,6 @@ f.close()
 time.sleep(0.5)
 clear()
 # 로딩창
-=======
->>>>>>> ba5f3d9970a42b1e117c832024b885260280760d
 print("Loading...")
 time.sleep(1)
 clear()
@@ -74,33 +67,6 @@ for g in tqdm(range(10)):
     time.sleep(0.1)
 clear()
 # 오프닝 끝
-
-
-# @@@@@@@앞 스토리@@@@@@@@@@@@@@
-print("어금니의 탑에 오신걸 환영합니다!!")
-time.sleep(3)
-clear()
-
-print("어금니 탑을 공략하기 앞서 간단한 설명 드리겠읍니다!!")
-time.sleep(3)
-clear()
-
-print("1. 총 15층이 있고 1층 올라갈수록 몬스터들이 강해집니다!!")
-time.sleep(3)
-clear()
-
-print("2.몬스터를 잡으면 템,포션을 드랍할 수 있습니다.(꽝 나옴!!)")
-time.sleep(3)
-clear()
-
-print("3.5층씩 올라 갈때마다 보스가 등장하며, 보스 전 층에 레어 몬스터가 있습니다!!")
-time.sleep(3)
-clear()
-
-print("그럼,어금니 탑에 입장하겠습니다!")
-time.sleep(3)
-clear()
-
 
 # @@@@@@@@@@@@@@@@@@플레이어@@@@@@@@@@@@@@@@@@
 loading_sound.stop()  # 로딩 배경음악 중지
@@ -198,28 +164,43 @@ print("그럼, 어금니 탑에 입장하겠습니다!!")
 time.sleep(3)
 clear()
 
-
+sound.stop()
 # 현재 층
+pygame.mixer.init()
+
 floor = 1
+
+# 현재 재생 중인 BGM 파일 경로 초기화
+current_bgm_file_path = ""
+
 while floor <= 15:
     # 현재 층의 몬스터 리스트 가져오기
-
     monster_list = eval(f"classes.floor{floor}")
+
+    # 층마다의 bgm 설정
+    if floor in [5, 10, 15]:
+        bgm_file_path = "bgm/boss_battle.mp3"
+        bgm_volume = 0.5
+    else:
+        bgm_file_path = "bgm/monster.mp3"
+        bgm_volume = 0.1
+
+    # 이전 BGM 중지 및 새로운 BGM 재생
+    if current_bgm_file_path != bgm_file_path:
+        pygame.mixer.music.stop()
+        pygame.mixer.music.load(bgm_file_path)
+        pygame.mixer.music.set_volume(bgm_volume)
+        pygame.mixer.music.play(-1)
+        current_bgm_file_path = bgm_file_path
 
     for monster in monster_list:
         monster.current_hp = monster.max_hp
         monster.alive = True
 
     clear()
-    # @@@@@@@@@@@@@@@@@@몬스터 배경음악@@@@@@@@@@@@@@@@@@
-    pygame.init()  # pygame을 진행할 때 꼭 초기화를 해줘야한다.
-    loading_sound.stop()  # 플레이어 배경음악 종료
-    loading_sound = pygame.mixer.Sound("bgm/monster.mp3")
-    loading_sound.play()  # -1 을 하면 무한 반복한다.(게임이 끝나면 꺼짐)
-    loading_sound.set_volume(0.1)
-
     print(f"어금니의{floor}층에 입장했습니다. 이곳에서는 {len(monster_list)}마리의 몬스터와 전투합니다.")
     time.sleep(0.5)
+
 
     while True:
         # 플레이어 정보 보여주기
@@ -228,7 +209,8 @@ while floor <= 15:
 
         # 몬스터 정보 보여주기
         view_monsters()
-
+        
+        
         action = None
         while True:
             # 공격방법 선택하기
