@@ -93,18 +93,24 @@ while True:
                               200, stat_str, stat_dex, stat_int)
         skill_name = "파이참"
         skill_mp = 20
+        weapon_list = classes.warrior_weapon_list
+        armor_list = classes.warrior_armor_list
         break
     elif select_character == "2":
         you = classes.Archer(f"{character_name}", 300, 200,
                              stat_str, stat_dex, stat_int)
         skill_name = "폭탄화살"
         skill_mp = 15
+        weapon_list = classes.archer_weapon_list
+        armor_list = classes.archer_armor_list
         break
     elif select_character == "3":
         you = classes.Magician(f"{character_name}", 300,
                                200, stat_str, stat_dex, stat_int)
         skill_name = "py썬더"
         skill_mp = 30
+        weapon_list = classes.magician_weapon_list
+        armor_list = classes.magician_armor_list
         break
     else:
         print("잘못된 입력입니다.")
@@ -238,7 +244,7 @@ while floor <= 15:
                 print("당신은 죽었습니다. 게임 오버")
                 sys.exit()
 
-        # 다음층 이동
+        # 다음 층 이동
         if len(monster_list) <= 0:
             time.sleep(0.5)
             print(f"\n{floor}층을 클리어하셨습니다!")

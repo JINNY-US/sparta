@@ -117,10 +117,17 @@ class Character:
 
 # 포션 사용 함수
 
-    def use_potion(self, potion):
-        self.hp += potion.hp_recovery
-        self.mp += potion.mp_recovery
-        print(f"{self.name}이 {potion.name}을 사용했습니다!  hp:{self.current_hp}/{self.max_hp}  mp:{self.current_mp}/{self.max_mp}")
+    def use_hp_potion(self):
+        self.current_hp = min(
+            round(self.current_hp + self.max_hp*0.5), self.max_hp)
+        print(f"{self.name}(당신)이 체력 포션을 사용했습니다!  hp:{self.current_hp}/{self.max_hp}  mp:{self.current_mp}/{self.max_mp}")
+
+    def use_mp_potion(self):
+        self.current_mp = min(
+            round(self.current_mp + self.max_mp*0.5), self.max_mp)
+        print(f"{self.name}(당신)이 마력 포션을 사용했습니다!  hp:{self.current_hp}/{self.max_hp}  mp:{self.current_mp}/{self.max_mp}")
+
+
 # 여기까지
 
 
@@ -245,8 +252,8 @@ class Monster:
     # 이것도 찬호님이 고쳐주시겠죠?? 전투부분에서 print랑 함수로 처리하는게 좋을 거 같습니다
     def drop_item(self):
         items = [
-            Item("무기"),
-            Item("갑옷"),
+            Weapon("무기"),
+            Armor("갑옷"),
             Item("포션"),
             Item("꽝"),
         ]
@@ -258,40 +265,6 @@ class Monster:
 # 아이템 클래스 작성 칸 class Item(self, player)
 # 아이템 클래스에 왜 hp, mp, power가 있냐면,
 # 아이템이 저 능력치를 가지고 있으며 능력치만큼 플레이어가 강화되기 때문입니다. 이 부분은 WeaponInfo armor class랑 기능이 비슷하네요
-
-
-# armor 클래스가 상속받을수 있게 들어가야 함
-class WeaponInfo:
-    def __init__(self, name, hp, mp, strength, dexterity, intelligence):
-        self.name = name
-        self.hp = hp
-        self.mp = mp
-        self.strength = strength
-        self.dexterity = dexterity
-        self.intelligence = intelligence
-
-    # 무기 정보 출력 함수
-    def show_item(self):
-        print(f"{self.name}  옵션 hp:{self.hp}  mp:{self.mp}  strength:{self.strength}  dexterity:{self.dexterity}  intelligence:{self.intelligence}")
-
-
-class ArmorInfo(WeaponInfo):
-    def __init__(self, name, hp, mp, strength, dexterity, intelligence):
-        super().__init__(name, hp, mp, strength, dexterity, intelligence)
-
-    def show_item(self):
-        super().show_item()
-    # wepon클래스와 구조가 같아 상속받아 사용
-
-
-# 포션 생성 클래스 단독적으로 사용
-class PotionInfo:
-    def __init__(self, name, hp_recovery, mp_recovery):
-        self.name = name
-        self.hp_recovery = hp_recovery
-        self.mp_recovery = mp_recovery
-
-# 찬호님 플레이어 메소드 아이템 !(끝)
 
 
 class Item:
@@ -328,87 +301,134 @@ class Armor(Item):
         player.hp += self.hp
 
 
-class Potion(Item):
-    def __init__(self, name, amount):
-        super().__init__(name)
-        self.amount = amount
+# class Potion(Item):
+#     def __init__(self, name, amount):
+#         super().__init__(name)
+#         self.amount = amount
 
-    def use(self, player):
-        print(f"{player.name}이(가) {self.name}을(를) 사용합니다.")
-        player.hp += self.amount
-        player.mp += self.amount
-        print(f"{player.name}의 HP와 MP가 {self.amount}만큼 회복됩니다.")
+#     def use(self, player):
+#         print(f"{player.name}이(가) {self.name}을(를) 사용합니다.")
+#         player.hp += self.amount
+#         player.mp += self.amount
+#         print(f"{player.name}의 HP와 MP가 {self.amount}만큼 회복됩니다.")
 
 
-class Junk(Item):
-    def __init__(self, name):
-        super().__init__(name)
+# class Junk(Item):
+#     def __init__(self, name):
+#         super().__init__(name)
 
-    def use(self, player):
-        print(f"{player.name}이(가) {self.name}을(를) 사용합니다.")
-        print(f"하지만 효과가 없습니다...{self.name}은 쓸모가 없습니다...")
+#     def use(self, player):
+#         print(f"{player.name}이(가) {self.name}을(를) 사용합니다.")
+#         print(f"하지만 효과가 없습니다...{self.name}은 쓸모가 없습니다...")
 
         # 경진님 아이템 클레스 끝
+
+
+# armor 클래스가 상속받을수 있게 들어가야 함
+class WeaponInfo:
+    def __init__(self, name, hp, mp, strength, dexterity, intelligence):
+        self.name = name
+        self.hp = hp
+        self.mp = mp
+        self.strength = strength
+        self.dexterity = dexterity
+        self.intelligence = intelligence
+
+    # 무기 정보 출력 함수
+    def show_item(self):
+        print(f"{self.name}  옵션 hp:{self.hp}  mp:{self.mp}  strength:{self.strength}  dexterity:{self.dexterity}  intelligence:{self.intelligence}")
+
+
+class ArmorInfo(WeaponInfo):
+    def __init__(self, name, hp, mp, strength, dexterity, intelligence):
+        super().__init__(name, hp, mp, strength, dexterity, intelligence)
+
+    def show_item(self):
+        super().show_item()
+    # wepon클래스와 구조가 같아 상속받아 사용
+
+
+# 포션 생성 클래스 단독적으로 사용
+# class PotionInfo:
+#     def __init__(self, name, hp_recovery, mp_recovery):
+#         self.name = name
+#         self.hp_recovery = hp_recovery
+#         self.mp_recovery = mp_recovery
+
+# 찬호님 플레이어 메소드 아이템 !(끝)
 
 
 ############################      찬호님  아아템 인스턴스          #########################
 # 여기서 부터 인스턴스로 가져가야 함(아이템 인스턴스)
 # 스테이터스 틀 만들어지면 아이템 능력치 부여
-# 전사 무기
-# name, hp, mp, strength, dexterity, intelligence 순서
-wood_clup = WeaponInfo('wood_clup', 10, 0, 5, 0, 0)
-great_clup = WeaponInfo('great_clup', 30, 0, 5, 5, 0)
-battle_axe = WeaponInfo('battle_axe', 30, 20, 10, 5, 0)
-claymore = WeaponInfo('claymore', 30, 25, 20, 5, 0)
-short_sword = WeaponInfo('short_sword', 10, 0, 5, 0, 0)
-great_sword = WeaponInfo('great_sword', 30, 25, 20, 10, 0)
-flashing_light_stick = WeaponInfo('flashing_light_stick', 50, 50, 40, 20, 30)
-# 궁수 무기
-# name, hp, mp, strength, dexterity, intelligence 순서
-short_bow = WeaponInfo('short_bow', 10, 0, 5, 5, 0)
-long_bow = WeaponInfo('long_bow', 10, 5, 5, 10, 15)
-composite_bow = WeaponInfo('composite_bow', 15, 10, 5, 15, 10)
-oriental_bow = WeaponInfo('oriental_bow', 15, 10, 10, 20, 5)
-is_this_a_real_bow = WeaponInfo('is_this_a_real_bow', 30, 20, 15, 30, 0)
-fire_breathing_staff = WeaponInfo('fire_breathing_staff', 50, 30, 30, 40, 30)
-# 마법사 무기
-# name, hp, mp, strength, dexterity, intelligence 순서
-wand = WeaponInfo('wand', 5, 20, 0, 0, 10)
-wood_staff = WeaponInfo('wood_staff', 5, 25, 0, 5, 10)
-Grimoire_of_Eyes_in_a_Triangle = (
-    'Grimoire_of_Eyes_in_a_Triangle', 3, 3, 3, 3, 33)
-needlessly_large_rod = ('needlessly_large_rod', 20, 60, 0, 0, 20)
-elder_wand = WeaponInfo('elder_wand', 20, 50, 5, 0, 30)
-middle_eastern_magic_wand = WeaponInfo(
-    'middle_eastern_magic_wand', 50, 50, 5, 5, 30)
 
+
+warrior_weapon_list = {
+    # 전사 무기
+    # name, hp, mp, strength, dexterity, intelligence 순서
+    'wood_clup': WeaponInfo('wood_clup', 10, 0, 5, 0, 0),
+    'great_clup': WeaponInfo('great_clup', 30, 0, 5, 5, 0),
+    'battle_axe': WeaponInfo('battle_axe', 30, 20, 10, 5, 0),
+    'claymore': WeaponInfo('claymore', 30, 25, 20, 5, 0),
+    'short_sword': WeaponInfo('short_sword', 10, 0, 5, 0, 0),
+    'great_sword': WeaponInfo('great_sword', 30, 25, 20, 10, 0),
+    'flashing_light_stick': WeaponInfo('flashing_light_stick', 50, 50, 40, 20, 30)
+}
+
+archer_weapon_list = {
+    # 궁수 무기
+    # name, hp, mp, strength, dexterity, intelligence 순서
+    'short_bow': WeaponInfo('short_bow', 10, 0, 5, 5, 0),
+    'long_bow': WeaponInfo('long_bow', 10, 5, 5, 10, 15),
+    'composite_bow': WeaponInfo('composite_bow', 15, 10, 5, 15, 10),
+    'oriental_bow': WeaponInfo('oriental_bow', 15, 10, 10, 20, 5),
+    'is_this_a_real_bow': WeaponInfo('is_this_a_real_bow', 30, 20, 15, 30, 0),
+    'fire_breathing_staff': WeaponInfo('fire_breathing_staff', 50, 30, 30, 40, 30)
+}
+
+magician_weapon_list = {
+    # 마법사 무기
+    # name, hp, mp, strength, dexterity, intelligence 순서
+    'wand': WeaponInfo('wand', 5, 20, 0, 0, 10),
+    'wood_staff': WeaponInfo('wood_staff', 5, 25, 0, 5, 10),
+    'Grimoire_of_Eyes_in_a_Triangle': WeaponInfo('Grimoire_of_Eyes_in_a_Triangle', 3, 3, 3, 3, 33),
+    'needlessly_large_rod': WeaponInfo('needlessly_large_rod', 20, 60, 0, 0, 20),
+    'elder_wand': WeaponInfo('elder_wand', 20, 50, 5, 0, 30),
+    'middle_eastern_magic_wand': WeaponInfo('middle_eastern_magic_wand', 50, 50, 5, 5, 30)
+}
 
 # 방어구
 # name, hp, mp, strength, dexterity, intelligence 순서
-# 초반
-cloth_armor: ArmorInfo('cloth_armor', 20, 5, 5, 0, 0)
-# 중반
-leather_armor = ArmorInfo('leather_armor', 35, 10, 5, 5, 0)
-chainmail = ArmorInfo('chainmail', 60, 20, 10, 10, 5)
-# 이벤트
-thornmail = ArmorInfo('thornmail', 200, 50, 50, 10, 10)
+warrior_armor_list = {
+    # 초반
+    'cloth_armor': ArmorInfo('cloth_armor', 20, 5, 5, 0, 0),
+    # 중반
+    'leather_armor': ArmorInfo('leather_armor', 35, 10, 5, 5, 0),
+    'chainmail': ArmorInfo('chainmail', 60, 20, 10, 10, 5),
+    # 이벤트
+    'thornmail': ArmorInfo('thornmail', 200, 50, 50, 10, 10)
+}
 
-# 초반
-hunter_hood = ArmorInfo('hunter_hood', 10, 10, 0, 5, 0)
-# 중반
-assassin_cloak = ArmorInfo('assassin_cloak', 25, 10, 5, 10, 0)
-claoak_of_agility = ArmorInfo('claoak_of_agility', 50, 25, 10, 5, 0)
-# 이벤트
-invisibility_cloak = ArmorInfo('invisibility_cloak', 200, 60, 45, 15, 10)
+archer_armor_list = {
+    # 초반
+    'hunter_hood': ArmorInfo('hunter_hood', 10, 10, 0, 5, 0),
+    # 중반
+    'assassin_cloak': ArmorInfo('assassin_cloak', 25, 10, 5, 10, 0),
+    'claoak_of_agility': ArmorInfo('claoak_of_agility', 50, 25, 10, 5, 0),
+    # 이벤트
+    'invisibility_cloak': ArmorInfo('invisibility_cloak', 200, 60, 45, 15, 10)
+}
 
-# 초반
-old_robe = ArmorInfo('old_robe', 5, 20, 0, 0, 5)
-# 중반
-ash_cloak = ArmorInfo('ash_cloak', 15, 20, 0, 10, 10)
-apprentice_cloak = ArmorInfo('Apprentice Cloak', 30, 40, 0, 0, 20)
-# 이벤트
-cloak_the_you_shall_not_pass = ArmorInfo(
-    'cloak_the_you_shall_not_pass', 100, 100, 20, 20, 50)
+magician_armor_list = {
+    # 초반
+    'old_robe': ArmorInfo('old_robe', 5, 20, 0, 0, 5),
+    # 중반
+    'ash_cloak': ArmorInfo('ash_cloak', 15, 20, 0, 10, 10),
+    'apprentice_cloak': ArmorInfo('Apprentice Cloak', 30, 40, 0, 0, 20),
+    # 이벤트
+    'cloak_the_you_shall_not_pass': ArmorInfo(
+        'cloak_the_you_shall_not_pass', 100, 100, 20, 20, 50)
+}
 
 
 # # 사용 예시
