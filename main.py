@@ -20,11 +20,11 @@ def view_monsters():
 # 플레이어 생성 배경음악
 pygame.init()  # pygame을 진행할 때 꼭 초기화를 해줘야한다.
 
-loading_sound = pygame.mixer.Sound("bgm/loding.mp3")
+loading_sound = pygame.mixer.Sound("./bgm/loding.mp3")
 loading_sound.play()  # -1 을 하면 무한 반복한다.(게임이 끝나면 꺼짐)
 loading_sound.set_volume(0.1)
 
-f = open("img/fd.txt", 'r', encoding='UTF8')
+f = open("./img/fq.txt", 'r', encoding='UTF8')
 lines = f.readlines()
 for line in lines:
     line = line.strip()     # 줄 끝의 줄 바꿈 문자를 제거한다.
