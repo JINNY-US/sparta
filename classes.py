@@ -22,8 +22,17 @@ class Character:
         self.weapon = None
         self.armor = None
 
-        # 일반공격
+# @@@@@@@@@@@@플레이어 효과음@@@@@@@@@@@
+    def attack_hit(self):
+        pygame.mixer.Sound("bgm/attack_normal.wav").play()
 
+    def magic_hit(self):
+        pygame.mixer.Sound("bgm/attack_magic.wav").play()
+
+    def play_sound_effect(self, effect_file_path):
+        pygame.mixer.Sound(effect_file_path).play()
+
+        # 일반공격
     def normal_attack(self, target):
         attack_damage = random.randint(
             int(self.normal_damage*0.8), int(self.normal_damage*1.3))
@@ -32,7 +41,7 @@ class Character:
         print(f"{target.name}에게 {attack_damage}의 피해를 입혔다 ! ")
         target.current_hp = max(target.current_hp, 0)
         if target.current_hp == 0:
-            print(f"{target.name}이 쓰러졌다 !")
+            print(f"\n{target.name}이 쓰러졌다 !")
             target.alive = False
 
 # 무기 장착 함수
@@ -125,12 +134,12 @@ class Warrior(Character):
         print(f"{target.name}에게 {skill_damage}의 피해를 입혔다 ! ")
         target.current_hp = max(target.current_hp, 0)
         if target.current_hp == 0:
-            print(f"{target.name}이 쓰러졌다 !")
+            print(f"\n{target.name}이 쓰러졌다 !")
             target.alive = False
 
     # 캐릭터 상태
     def update_status(self):
-        print(f"{self.name}(당신)의 현재 상태: HP {self.current_hp} / {self.max_hp}, MP {self.current_mp} / {self.max_mp}, 직업: 전사, 경험치:{self.current_exp} / {self.max_exp}, 레벨: {self.level} lv / 힘: {self.strength} / 민첩: {self.dexterity} / 지능: {self.intelligence}")
+        print(f"{self.name}(당신)의 현재 상태: HP {self.current_hp} / {self.max_hp}, MP {self.current_mp} / {self.max_mp}, 직업: 전사 \n경험치: {self.current_exp} / {self.max_exp}, 레벨: {self.level} lv / 힘: {self.strength} / 민첩: {self.dexterity} / 지능: {self.intelligence}")
 
 
 # 궁수 클래스
@@ -152,12 +161,12 @@ class Archer(Character):
         print(f"{target.name}에게 {skill_damage}의 피해를 입혔다 ! ")
         target.current_hp = max(target.current_hp, 0)
         if target.current_hp == 0:
-            print(f"{target.name}이 쓰러졌다 !")
+            print(f"\n{target.name}이 쓰러졌다 !")
             target.alive = False
 
     # 캐릭터 상태
     def update_status(self):
-        print(f"{self.name}(당신)의 현재 상태: HP {self.current_hp} / {self.max_hp}, MP {self.current_mp} / {self.max_mp}, 직업: 궁수, 경험치:{self.current_exp} / {self.max_exp}, 레벨: {self.level} lv / 힘: {self.strength} / 민첩: {self.dexterity} / 지능: {self.intelligence}")
+        print(f"{self.name}(당신)의 현재 상태: HP {self.current_hp} / {self.max_hp}, MP {self.current_mp} / {self.max_mp}, 직업: 궁수 \n경험치: {self.current_exp} / {self.max_exp}, 레벨: {self.level} lv / 힘: {self.strength} / 민첩: {self.dexterity} / 지능: {self.intelligence}")
 
 
 # 마법사 클래스
@@ -179,12 +188,12 @@ class Magician(Character):
         print(f"{target.name}에게 {skill_damage}의 피해를 입혔다 ! ")
         target.current_hp = max(target.current_hp, 0)
         if target.current_hp == 0:
-            print(f"{target.name}이 쓰러졌다 !")
+            print(f"\n{target.name}이 쓰러졌다 !")
             target.alive = False
 
     # 캐릭터 상태
     def update_status(self):
-        print(f"{self.name}(당신)의 현재 상태: HP {self.current_hp} / {self.max_hp}, MP {self.current_mp} / {self.max_mp}, 직업: 마법사, \n경험치: {self.current_exp} / {self.max_exp}, 레벨: {self.level} lv / 힘: {self.strength} / 민첩: {self.dexterity} / 지능: {self.intelligence}")
+        print(f"{self.name}(당신)의 현재 상태: HP {self.current_hp} / {self.max_hp}, MP {self.current_mp} / {self.max_mp}, 직업: 마법사 \n경험치: {self.current_exp} / {self.max_exp}, 레벨: {self.level} lv / 힘: {self.strength} / 민첩: {self.dexterity} / 지능: {self.intelligence}")
 
 
 # 몬스터 클래스
@@ -200,12 +209,6 @@ class Monster:
         self.alive = True
         self.level = level
         self.exp = exp
-        # 몬스터 효과음
-        pygame.mixer.init()  # pygame 모듈 초기화
-
-    def attack(self):
-        # 몬스터가 일반공격을 할 때 효과음 재생
-        pygame.mixer.Sound("bgm/monster_hit.wav").play()
 
     def normal_attack(self, target):
         attack_damage = random.randint(
@@ -215,7 +218,7 @@ class Monster:
         print(f"{target.name}에게 {attack_damage}의 피해를 입혔다 ! ")
         target.current_hp = max(target.current_hp, 0)
         if target.current_hp == 0:
-            print(f"{target.name}이 쓰러졌다 !")
+            print(f"\n{target.name}이 쓰러졌다 !")
             target.alive = False
 
     def update_status(self):
@@ -249,7 +252,7 @@ class DefencePotion(Potion):
         super().__init__(name)
 
     def use(self, player):
-        print(f"{player.name}이(가) {self.name}을(를) 사용합니다.")
+        print(f"\n{player.name}이(가) {self.name}을(를) 사용합니다.")
         player.max_hp += 50
         player.current_hp += 50
         print(f"{player.name}의 최대 HP가 50 증가합니다.")
@@ -260,7 +263,7 @@ class HpPotion(Potion):
         super().__init__(name)
 
     def use(self, player):
-        print(f"{player.name}이(가) {self.name}을(를) 사용합니다.")
+        print(f"\n{player.name}이(가) {self.name}을(를) 사용합니다.")
         player.current_hp = min(
             round(player.current_hp + player.max_hp*0.5), player.max_hp)
         print(f"{player.name}의 HP가 절반 회복됩니다.")
@@ -271,7 +274,7 @@ class MpPotion(Potion):
         super().__init__(name)
 
     def use(self, player):
-        print(f"{player.name}이(가) {self.name}을(를) 사용합니다.")
+        print(f"\n{player.name}이(가) {self.name}을(를) 사용합니다.")
         player.current_mp = min(
             round(player.current_mp + player.max_mp*0.5), player.max_mp)
         print(f"{player.name}의 MP가 절반 회복됩니다.")

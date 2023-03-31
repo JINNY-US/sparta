@@ -56,6 +56,13 @@ for g in tqdm(range(10)):
 clear()
 # 오프닝 끝
 
+# @@@@@@@@@@@@@@@@@@플레이어@@@@@@@@@@@@@@@@@@
+loading_sound.stop()  # 로딩 배경음악 중지
+
+sound = pygame.mixer.Sound("bgm/music.mp3")  # 플레이어 생성 배경음악
+sound.play(-1)  # -1 을 하면 무한 반복한다.(게임이 끝나면 꺼짐)
+sound.set_volume(0.1)
+
 # 플레이어 이름 생성
 print("플레이어 이름 입력 :  ")
 character_name = input(" ")
@@ -121,37 +128,57 @@ while True:
         print("잘못된 입력입니다.")
 
 # @@@@@@@앞 스토리@@@@@@@@@@@@@@
-print("어금니의 탑에 오신 걸 환영합니다!!")
-time.sleep(3)
+clear()
+print("어금니의 탑에 오신 것을 환영합니다!!")
+time.sleep(2)
 clear()
 
-print("어금니 탑을 공략하기 앞서 간단한 설명 드리겠읍니다!!")
-time.sleep(3)
+print("어금니 탑을 공략하기 앞서 간단한 설명 드리겠습니다!!\n")
+time.sleep(2)
 clear()
 
-print("1. 총 15층이 있고 1층씩 올라갈수록 몬스터들이 강해집니다!!")
-time.sleep(3)
+print("1. 총 15층이 있고 1층씩 올라갈수록 몬스터들이 강해집니다!!\n")
+time.sleep(0.7)
+
+print("2. 몬스터를 잡으면 유용한 아이템, 포션을 드랍할 수 있습니다.\n")
+time.sleep(0.7)
+
+print("3. 다섯 층씩 올라갈 때마다 보스가 등장하며, 보스 바로 전 층에 레어한 몬스터가 있습니다!!")
+time.sleep(0.7)
 clear()
 
-print("2. 몬스터를 잡으면 유용한 아이템, 포션을 드랍할 수 있습니다.")
-time.sleep(3)
+print("그럼, 어금니 탑에 입장합니다!!")
+time.sleep(2)
 clear()
 
-print("3. 다섯 층씩 올라갈 때마다 보스가 등장하며, 보스 바로 전 층에 레어 몬스터가 있습니다!!")
-time.sleep(3)
-clear()
-
-print("그럼, 어금니 탑에 입장하겠습니다!!")
-time.sleep(3)
-clear()
-
-
+sound.stop()
 # 현재 층
+pygame.mixer.init()
+
 floor = 1
+
+# 현재 재생 중인 BGM 파일 경로 초기화
+current_bgm_file_path = ""
+
 while floor <= 15:
     # 현재 층의 몬스터 리스트 가져오기
-
     monster_list = eval(f"classes.floor{floor}")
+
+    # 층마다의 bgm 설정
+    if floor in [5, 10, 15]:
+        bgm_file_path = "bgm/boss_battle.mp3"
+        bgm_volume = 0.5
+    else:
+        bgm_file_path = "bgm/monster.mp3"
+        bgm_volume = 0.1
+
+    # 이전 BGM 중지 및 새로운 BGM 재생
+    if current_bgm_file_path != bgm_file_path:
+        pygame.mixer.music.stop()
+        pygame.mixer.music.load(bgm_file_path)
+        pygame.mixer.music.set_volume(bgm_volume)
+        pygame.mixer.music.play(-1)
+        current_bgm_file_path = bgm_file_path
 
     for monster in monster_list:
         monster.current_hp = monster.max_hp
@@ -175,12 +202,8 @@ while floor <= 15:
             print(f"\n공격 방식을 고르세요.\n 1: 일반 공격 2: 스킬 공격({skill_name}) 3: 게임 종료")
             action = input()
             if action == "1":
-                you.play_sound_effect("bgm/attack_normal.wav")
-                you.attack_hit()
                 break
             elif action == "2":
-                you.play_sound_effect("bgm/attack_magic.wav")
-                you.magic_hit()
                 break
             elif action == "3":
                 print("어금니 탑을 탈출합니다.")
@@ -203,6 +226,8 @@ while floor <= 15:
                 clear()
                 # 일반 공격
                 you.normal_attack(monster_list[target_monster])
+                you.play_sound_effect("bgm/attack_normal.wav")
+                you.attack_hit()
                 break
             elif action == "2":
                 # 마나 체크
@@ -215,6 +240,8 @@ while floor <= 15:
                     clear()
                     # 스킬 공격
                     you.skill_attack(monster_list[target_monster])
+                    you.play_sound_effect("bgm/attack_magic.wav")
+                    you.magic_hit()
                     break
 
         # 몬스터 사망 체크
@@ -225,7 +252,7 @@ while floor <= 15:
 
                 # 몬스터 사망시 경험치 획득
                 you.current_exp += monster.exp
-                print(f"{monster.name}을(를) 처치하여 {monster.exp}의 경험치를 얻었습니다.")
+                print(f"{monster.name}을(를) 처치하여 {monster.exp}의 경험치를 얻었습니다.\n")
 
                 # 몬스터 사망시 30% 확률로 포션 획득
                 if random.random() < 0.4:
@@ -307,6 +334,9 @@ while floor <= 15:
         if len(monster_list) <= 0:
             time.sleep(0.5)
             print(f"\n{floor}층을 클리어하셨습니다!")
+            if floor == 15:
+                print("축하합니다! 어금니의 탑을 정복했습니다.\n이제 당신의 어금니는 충치 걱정을 할 필요 없습니다.")
+                break
             floor += 1
             time.sleep(2)
             break
