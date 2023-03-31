@@ -144,7 +144,7 @@ class Warrior(Character):
         self.skill_name = "파이참"
 
     def skill_attack(self, target):
-        self.current_mp -= 20
+        self.current_mp -= 10
         skill_damage = random.randint(
             int(self.skill_damage*1.3), int((self.skill_damage*2.0)))
         # 스킬을 쓸때마다 스킬 데미지가 힘에 비례해서 증가(버그가 아니고 기능)
@@ -174,7 +174,7 @@ class Archer(Character):
         self.skill_name = "폭탄화살"
 
     def skill_attack(self, target):
-        self.current_mp -= 15
+        self.current_mp -= 10
         skill_damage = random.randint(
             int(self.skill_damage*1.3), int((self.skill_damage*2.0)))
         target.current_hp -= skill_damage
@@ -202,7 +202,7 @@ class Magician(Character):
         self.skill_name = "py썬더"
 
     def skill_attack(self, target):
-        self.current_mp -= 30
+        self.current_mp -= 15
         skill_damage = random.randint(
             int(self.skill_damage*1.3), int((self.skill_damage*2.0)))
         target.current_hp -= skill_damage
@@ -228,7 +228,7 @@ class Monster:
         self.max_mp = mp
         self.current_mp = mp
         self.normal_damage = normal_damage
-        self.skill_damage = skill_damage
+        # self.skill_damage = skill_damage
         self.alive = True
         self.level = level
         self.exp = exp
@@ -453,26 +453,26 @@ magician_armor_list = {
 
 ###################################  재훈 몬스터  인스턴스 ####################################
 # 일반 몬스터 딕셔너리
-monster_dict = {"monster1": Monster("들짐승", 50, 0, 10, 0, 1, 100),
-                "monster2": Monster("늑대인간", 100, 0, 15, 0, 3, 130),
-                "monster3": Monster("고블린", 120, 0, 20, 0, 4, 135),
-                "monster4": Monster("거대독거미", 200, 0, 40, 0, 6, 150),
-                "monster5": Monster("빨간슬라임", 200, 0, 40, 0, 6, 150),
-                "monster6": Monster("케로베로스", 250, 0, 50, 0, 7, 160),
-                "monster7": Monster("오우거", 300, 0, 55, 0, 7, 160),
-                "monster8": Monster("서큐버스", 440, 0, 70, 0, 8, 185),
-                "monster9": Monster("드라큘라", 450, 0, 80, 0, 9, 190),
+monster_dict = {"monster1": Monster("들짐승", 50, 0, 10, 0, 1, 130),
+                "monster2": Monster("늑대인간", 100, 0, 15, 0, 3, 150),
+                "monster3": Monster("고블린", 120, 0, 20, 0, 4, 165),
+                "monster4": Monster("거대독거미", 200, 0, 40, 0, 6, 170),
+                "monster5": Monster("빨간슬라임", 200, 0, 40, 0, 6, 180),
+                "monster6": Monster("케로베로스", 250, 0, 50, 0, 7, 190),
+                "monster7": Monster("오우거", 300, 0, 55, 0, 7, 200),
+                "monster8": Monster("서큐버스", 440, 0, 70, 0, 8, 215),
+                "monster9": Monster("드라큘라", 450, 0, 80, 0, 9, 250),
                 }
 # 엘리트 몬스터 딕셔너리
 strong_monster_dict = {
-    "strong_monster1": Monster("군필여고생", 111, 0, 20, 0, 4, 140),
-    "strong_monster2": Monster("케로베로스", 333, 0, 50, 0, 10, 190),
-    "strong_monster3": Monster("악마", 666, 0, 100, 0, 13, 250)
+    "strong_monster1": Monster("군필여고생", 111, 0, 20, 0, 4, 240),
+    "strong_monster2": Monster("케로베로스", 333, 0, 50, 0, 10, 310),
+    "strong_monster3": Monster("악마", 666, 0, 100, 0, 13, 350)
 }
 # 보스몬스터 딕셔너리
 boss_monster_dict = {
-    "boss_monster1": Monster("보스몬스터1", 150, 10, 20, 35, 7, 170),
-    "boss_monster2": Monster("보스몬스터2", 300, 10, 35, 50, 10, 200),
+    "boss_monster1": Monster("보스몬스터1", 150, 10, 20, 35, 7, 300),
+    "boss_monster2": Monster("보스몬스터2", 300, 10, 35, 50, 10, 450),
     "boss_monster3": Monster("어금니", 999, 20, 120, 150, 99, 999)
 }
 
