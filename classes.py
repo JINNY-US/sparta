@@ -1,8 +1,6 @@
 import random
 import pygame
 
-# 캐릭터 클래스 스탯당 공격력추가 , 레벨업, 레벨업마다 스탯증가 구현 필요
-
 
 class Character:
     def __init__(self, name, hp, mp, strength, dexterity, intelligence):
@@ -46,22 +44,6 @@ class Character:
             print(f"{target.name}이 쓰러졌다 !")
             target.alive = False
 
-        # 경진님
-
-    @staticmethod
-    def get_item():
-        items = [Weapon("무기", 10), Armor("갑옷", 20),
-                 Potion("포션", 30), Junk("꽝!")]
-        item = random.choice(items)
-        return item
-
-    # def show_status(self):
-    #     print(f"{self.name}의 현재 상태: HP {self.hp}, MP {self.mp}")
-    #     print("보유 아이템:")
-    #     for item in self.items:
-    #         print(f"- {item.name} ({item.kind})")
-
-    # 찬호님 플레이어 메소드 아이템 !! (시작)
 # 무기 장착 함수
 
     def equip_weapon(self, weapon):
@@ -72,11 +54,12 @@ class Character:
             self.strength += weapon.strength
             self.dexterity += weapon.dexterity
             self.intelligence += weapon.intelligence
-            print(f"{self.name}은 {self.weapon.name}을 장착하였습니다")
+            print(f"{self.name}(당신)은/는 {self.weapon.name}을 장착하였습니다")
             self.update_status()
         else:
             while True:
-                print(f"{self.name}은 {self.weapon.name}을 장착 중입니다, 교체하시겠습니까? (Y/N)")
+                print(
+                    f"{self.name}(당신)은/는 {self.weapon.name}을 장착 중입니다, 교체하시겠습니까? (Y/N)")
                 answer = input()
                 if answer.upper() == "Y":
                     self.weapon = weapon
@@ -85,11 +68,11 @@ class Character:
                     self.strength += weapon.strength
                     self.dexterity += weapon.dexterity
                     self.intelligence += weapon.intelligence
-                    print(f"{self.name}(당신)은 {weapon.name}을 장착하였습니다!")
+                    print(f"{self.name}(당신)은/는 {weapon.name}을 장착하였습니다!")
                     self.update_status()
                     break
                 elif answer.upper() == "N":
-                    print(f"{self.name}(당신)은 {weapon.name}을 장착하지 않았습니다!")
+                    print(f"{self.name}(당신)은/는 {weapon.name}을 장착하지 않았습니다!")
                     break
                 else:
                     print("잘못 입력하셨습니다. 다시 선택해주세요.")
@@ -103,11 +86,12 @@ class Character:
             self.strength += armor.strength
             self.dexterity += armor.dexterity
             self.intelligence += armor.intelligence
-            print(f"{self.name}은 {self.armor.name}을 장착하였습니다")
+            print(f"{self.name}(당신)은/는 {self.armor.name}을 장착하였습니다")
             self.update_status()
         else:
             while True:
-                print(f"{self.name}은 {self.armor.name}을 장착 중입니다, 교체하시겠습니까? (Y/N)")
+                print(
+                    f"{self.name}(당신)은/는 {self.armor.name}을 장착 중입니다, 교체하시겠습니까? (Y/N)")
                 answer = input()
                 if answer.upper() == "Y":
                     self.armor = armor
@@ -116,15 +100,16 @@ class Character:
                     self.strength += armor.strength
                     self.dexterity += armor.dexterity
                     self.intelligence += armor.intelligence
-                    print(f"{self.name}(당신)은 {armor.name}을 장착하였습니다!")
+                    print(f"{self.name}(당신)은/는 {armor.name}을 장착하였습니다!")
                     self.update_status()
                     break
                 elif answer.upper() == "N":
-                    print(f"{self.name}(당신)은 {armor.name}을 장착하지 않았습니다!")
+                    print(f"{self.name}(당신)은/는 {armor.name}을 장착하지 않았습니다!")
                     break
                 else:
                     print("잘못 입력하셨습니다. 다시 선택해주세요.")
 
+<<<<<<< HEAD
 
 # 포션 사용 함수
 
@@ -143,7 +128,11 @@ class Character:
 # 여기까지
 
 
+=======
+>>>>>>> ba5f3d9970a42b1e117c832024b885260280760d
 # 전사 클래스
+
+
 class Warrior(Character):
     def __init__(self, name, hp, mp, strength, dexterity, intelligence):
         super().__init__(name, hp, mp, strength, dexterity, intelligence)
@@ -170,7 +159,6 @@ class Warrior(Character):
             target.alive = False
 
     # 캐릭터 상태
-
     def update_status(self):
         print(f"{self.name}(당신)의 현재 상태: HP {self.current_hp} / {self.max_hp}, MP {self.current_mp} / {self.max_mp}, 직업: 전사, 경험치:{self.current_exp} / {self.max_exp}, 레벨: {self.level} lv / 힘: {self.strength} / 민첩: {self.dexterity} / 지능: {self.intelligence}")
 
@@ -198,7 +186,6 @@ class Archer(Character):
             target.alive = False
 
     # 캐릭터 상태
-
     def update_status(self):
         print(f"{self.name}(당신)의 현재 상태: HP {self.current_hp} / {self.max_hp}, MP {self.current_mp} / {self.max_mp}, 직업: 궁수, 경험치:{self.current_exp} / {self.max_exp}, 레벨: {self.level} lv / 힘: {self.strength} / 민첩: {self.dexterity} / 지능: {self.intelligence}")
 
@@ -226,9 +213,8 @@ class Magician(Character):
             target.alive = False
 
     # 캐릭터 상태
-
     def update_status(self):
-        print(f"{self.name}(당신)의 현재 상태: HP {self.current_hp} / {self.max_hp}, MP {self.current_mp} / {self.max_mp}, 직업: 마법사, 경험치:{self.current_exp} / {self.max_exp}, 레벨: {self.level} lv / 힘: {self.strength} / 민첩: {self.dexterity} / 지능: {self.intelligence}")
+        print(f"{self.name}(당신)의 현재 상태: HP {self.current_hp} / {self.max_hp}, MP {self.current_mp} / {self.max_mp}, 직업: 마법사, \n경험치: {self.current_exp} / {self.max_exp}, 레벨: {self.level} lv / 힘: {self.strength} / 민첩: {self.dexterity} / 지능: {self.intelligence}")
 
 
 # 몬스터 클래스
@@ -257,86 +243,67 @@ class Monster:
             target.alive = False
 
     def update_status(self):
-        print(f"[{self.name}] 현재 상태: HP {self.current_hp}/{self.max_hp}, MP {self.current_mp}/{self.max_mp} 레벨 :{self.level} lv")
-
-    # 아이템 드랍 작성 칸 drop_item
-    # 아이템 드랍, 4종류의 하위 품목은 따로 만들어야 함  인스턴스 만들어놓고
-    # 이것도 찬호님이 고쳐주시겠죠?? 전투부분에서 print랑 함수로 처리하는게 좋을 거 같습니다
-    def drop_item(self):
-        items = [
-            Weapon("무기"),
-            Armor("갑옷"),
-            Item("포션"),
-            Item("꽝"),
-        ]
-        item = random.choice(items)
-        item_name = item.name
-        print(f"{self.name}을(를) 물리쳤습니다! {item.name}을(를) 얻었습니다.")
-        return item_name
-
-# 아이템 클래스 작성 칸 class Item(self, player)
-# 아이템 클래스에 왜 hp, mp, power가 있냐면,
-# 아이템이 저 능력치를 가지고 있으며 능력치만큼 플레이어가 강화되기 때문입니다. 이 부분은 WeaponInfo armor class랑 기능이 비슷하네요
+        print(f"[{self.name}] 현재 상태: HP {self.current_hp}/{self.max_hp}, MP {self.current_mp}/{self.max_mp} 레벨: {self.level} lv")
 
 
-class Item:
-    def __init__(self, name, hp=0, mp=0, power=0):
+class Potion():
+    def __init__(self, name, hp=0, mp=0, strength=0, dexterity=0, intelligence=0):
         self.name = name
         self.hp = hp
         self.mp = mp
-        self.power = power
-
-    # def use(self, player):
-    #     print(f"{player.name}이(가) {self.name}을(를) 사용합니다.")
-    #     # print(f"{self.name}: HP {self.hp}, MP {self.mp}, power {self.power}")
-
-# 경진님 아이템 클레스
+        self.strength = strength
+        self.dexterity = dexterity
+        self.intelligence = intelligence
 
 
-class Weapon(Item):
-    def __init__(self, name, power):
+class DamagePotion(Potion):
+    def __init__(self, name):
         super().__init__(name)
-        self.power = power
 
     def use(self, player):
-        print(f"{player.name}이(가) {self.name}을(를) 장착합니다.")
-        player.power += self.power
+        print(f"{player.name}이(가) {self.name}을(를) 사용합니다.")
+        player.strength += 5
+        player.dexterity += 5
+        player.intelligence += 5
+        print(f"{player.name}의 모든 스탯이 5 증가합니다.")
 
 
-class Armor(Item):
-    def __init__(self, name, hp):
+class DefencePotion(Potion):
+    def __init__(self, name):
         super().__init__(name)
-        self.hp = hp
 
     def use(self, player):
-        print(f"{player.name}이(가) {self.name}을(를) 장착합니다.")
-        player.hp += self.hp
+        print(f"{player.name}이(가) {self.name}을(를) 사용합니다.")
+        player.max_hp += 50
+        player.current_hp += 50
+        print(f"{player.name}의 최대 HP가 50 증가합니다.")
 
 
-# class Potion(Item):
-#     def __init__(self, name, amount):
-#         super().__init__(name)
-#         self.amount = amount
+class HpPotion(Potion):
+    def __init__(self, name):
+        super().__init__(name)
 
-#     def use(self, player):
-#         print(f"{player.name}이(가) {self.name}을(를) 사용합니다.")
-#         player.hp += self.amount
-#         player.mp += self.amount
-#         print(f"{player.name}의 HP와 MP가 {self.amount}만큼 회복됩니다.")
-
-
-# class Junk(Item):
-#     def __init__(self, name):
-#         super().__init__(name)
-
-#     def use(self, player):
-#         print(f"{player.name}이(가) {self.name}을(를) 사용합니다.")
-#         print(f"하지만 효과가 없습니다...{self.name}은 쓸모가 없습니다...")
-
-        # 경진님 아이템 클레스 끝
+    def use(self, player):
+        print(f"{player.name}이(가) {self.name}을(를) 사용합니다.")
+        player.current_hp = min(
+            round(player.current_hp + player.max_hp*0.5), player.max_hp)
+        print(f"{player.name}의 HP가 절반 회복됩니다.")
 
 
-# armor 클래스가 상속받을수 있게 들어가야 함
+class MpPotion(Potion):
+    def __init__(self, name):
+        super().__init__(name)
+
+    def use(self, player):
+        print(f"{player.name}이(가) {self.name}을(를) 사용합니다.")
+        player.current_mp = min(
+            round(player.current_mp + player.max_mp*0.5), player.max_mp)
+        print(f"{player.name}의 MP가 절반 회복됩니다.")
+
+        # 경진님 아이템 클래스 끝
+
+
+# armor 클래스가 상속받을 수 있게 들어가야 함
 class WeaponInfo:
     def __init__(self, name, hp, mp, strength, dexterity, intelligence):
         self.name = name
@@ -348,7 +315,7 @@ class WeaponInfo:
 
     # 무기 정보 출력 함수
     def show_item(self):
-        print(f"{self.name}  옵션 hp:{self.hp}  mp:{self.mp}  strength:{self.strength}  dexterity:{self.dexterity}  intelligence:{self.intelligence}")
+        print(f"{self.name}  옵션 HP: {self.hp}  MP: {self.mp}  힘: {self.strength}  민첩: {self.dexterity}  지능: {self.intelligence}")
 
 
 class ArmorInfo(WeaponInfo):
@@ -360,17 +327,14 @@ class ArmorInfo(WeaponInfo):
     # wepon클래스와 구조가 같아 상속받아 사용
 
 
-# 포션 생성 클래스 단독적으로 사용
-# class PotionInfo:
-#     def __init__(self, name, hp_recovery, mp_recovery):
-#         self.name = name
-#         self.hp_recovery = hp_recovery
-#         self.mp_recovery = mp_recovery
+damage_potion = DamagePotion("공격력 물약")
+defence_potion = DefencePotion("방어력 물약")
+hp_potion = HpPotion("HP 물약")
+mp_potion = MpPotion("MP 물약")
 
-# 찬호님 플레이어 메소드 아이템 !(끝)
+potions = [damage_potion, defence_potion, hp_potion, mp_potion]
 
-
-############################      찬호님  아아템 인스턴스          #########################
+############################      찬호님  아이템 인스턴스          #########################
 # 여기서 부터 인스턴스로 가져가야 함(아이템 인스턴스)
 # 스테이터스 틀 만들어지면 아이템 능력치 부여
 
@@ -382,7 +346,6 @@ warrior_weapon_list = {
     'great_clup': WeaponInfo('great_clup', 30, 0, 5, 5, 0),
     'battle_axe': WeaponInfo('battle_axe', 30, 20, 10, 5, 0),
     'claymore': WeaponInfo('claymore', 30, 25, 20, 5, 0),
-    'short_sword': WeaponInfo('short_sword', 10, 0, 5, 0, 0),
     'great_sword': WeaponInfo('great_sword', 30, 25, 20, 10, 0),
     'flashing_light_stick': WeaponInfo('flashing_light_stick', 50, 50, 40, 20, 30)
 }

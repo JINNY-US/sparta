@@ -5,6 +5,7 @@ import pygame
 import os
 import sys
 import classes
+import math
 
 
 # 몬스터 정보 보여주기 함수
@@ -19,6 +20,12 @@ def view_monsters():
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
+# 다음 출력을 새페이지로 넘김
+
+
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 
 # 오프닝 시작
 # 플레이어 생성 배경음악
@@ -28,7 +35,11 @@ loading_sound = pygame.mixer.Sound("bgm/loding.mp3")
 loading_sound.play()  # -1 을 하면 무한 반복한다.(게임이 끝나면 꺼짐)
 loading_sound.set_volume(0.1)
 
+<<<<<<< HEAD
 f = open("img/moals.txt", 'r', encoding='UTF8')
+=======
+f = open("img/어금니.txt", 'r', encoding='UTF8')
+>>>>>>> ba5f3d9970a42b1e117c832024b885260280760d
 lines = f.readlines()
 for line in lines:
     line = line.strip()     # 줄 끝의 줄 바꿈 문자를 제거한다.
@@ -38,6 +49,7 @@ f.close()
 time.sleep(0.5)
 clear()
 
+<<<<<<< HEAD
 # 다음 출력을 새페이지로 넘김
 
 f = open("img/fq.txt", 'r', encoding='UTF8')
@@ -50,6 +62,8 @@ f.close()
 time.sleep(0.5)
 clear()
 # 로딩창
+=======
+>>>>>>> ba5f3d9970a42b1e117c832024b885260280760d
 print("Loading...")
 time.sleep(1)
 clear()
@@ -104,7 +118,7 @@ print(f"당신의 이름은 '{character_name}'입니다.")
 time.sleep(0.5)
 
 # 주사위를 굴리라는 안내멘트
-print("스탯 주사위를 굴리려면 ENTER KEY를 눌러주세요")
+print("스탯 주사위를 굴리려면 ENTER KEY를 눌러주세요.")
 input()
 
 while True:
@@ -159,6 +173,31 @@ while True:
     else:
         print("잘못된 입력입니다.")
 
+# @@@@@@@앞 스토리@@@@@@@@@@@@@@
+print("어금니의 탑에 오신 걸 환영합니다!!")
+time.sleep(3)
+clear()
+
+print("어금니 탑을 공략하기 앞서 간단한 설명 드리겠읍니다!!")
+time.sleep(3)
+clear()
+
+print("1. 총 15층이 있고 1층씩 올라갈수록 몬스터들이 강해집니다!!")
+time.sleep(3)
+clear()
+
+print("2. 몬스터를 잡으면 유용한 아이템, 포션을 드랍할 수 있습니다.")
+time.sleep(3)
+clear()
+
+print("3. 다섯 층씩 올라갈 때마다 보스가 등장하며, 보스 바로 전 층에 레어 몬스터가 있습니다!!")
+time.sleep(3)
+clear()
+
+print("그럼, 어금니 탑에 입장하겠습니다!!")
+time.sleep(3)
+clear()
+
 
 # 현재 층
 floor = 1
@@ -181,7 +220,6 @@ while floor <= 15:
 
     print(f"어금니의{floor}층에 입장했습니다. 이곳에서는 {len(monster_list)}마리의 몬스터와 전투합니다.")
     time.sleep(0.5)
-    # 14층에 대한 이벤트 작성 칸...나중에 입력할게요 넵
 
     while True:
         # 플레이어 정보 보여주기
@@ -194,7 +232,7 @@ while floor <= 15:
         action = None
         while True:
             # 공격방법 선택하기
-            print(f"\n공격 방식을 고르세요.\n 1: 일반 공격 2: 스킬 공격({skill_name})")
+            print(f"\n공격 방식을 고르세요.\n 1: 일반 공격 2: 스킬 공격({skill_name}) 3: 게임 종료")
             action = input()
             if action == "1":
                 you.play_sound_effect("bgm/attack_normal.wav")
@@ -204,8 +242,11 @@ while floor <= 15:
                 you.play_sound_effect("bgm/attack_magic.wav")
                 you.magic_hit()
                 break
+            elif action == "3":
+                print("어금니 탑을 탈출합니다.")
+                sys.exit()
             else:
-                print("잘못 고르셨습니다. 다시 선택해주세요.")
+                print("잘못 고르셨습니다. 다시 선택해 주세요.")
 
         while True:
             # 대상 몬스터 선택하기
@@ -242,11 +283,35 @@ while floor <= 15:
             if monster.alive == False:
                 delete_monster_list.append(i)
 
-                # 몬스터 사망시 아이템 획득
-
                 # 몬스터 사망시 경험치 획득
                 you.current_exp += monster.exp
                 print(f"{monster.name}을(를) 처치하여 {monster.exp}의 경험치를 얻었습니다.")
+
+                # 몬스터 사망시 30% 확률로 포션 획득
+                if random.random() < 0.4:
+                    potion = random.choice(classes.potions)
+                    print(f"보상으로 {potion.name}을 얻었습니다.")
+                    potion.use(you)
+                    you.update_status()
+                # 몬스터 사망시 15% 확률로 무기 획득
+                if random.random() < 0.2:
+                    floor_level = math.ceil(floor/3) + 1
+                    weapon_names = list(weapon_list.keys())
+                    random_weapon = random.choice(weapon_names[:floor_level])
+                    weapon = weapon_list[random_weapon]
+                    print(f"{random_weapon}을 획득했습니다.")
+                    weapon.show_item()
+                    you.equip_weapon(weapon)
+
+                # 몬스터 사망시 15% 확률로 방어구 획득
+                if random.random() < 0.2:
+                    floor_level = math.ceil(floor/5) + 1
+                    armor_names = list(armor_list.keys())
+                    random_armor = random.choice(armor_names[:floor_level])
+                    armor = armor_list[random_armor]
+                    print(f"{random_armor}을 획득했습니다.")
+                    armor.show_item()
+                    you.equip_armor(armor)
 
                 # 레벨업
                 if you.current_exp >= you.max_exp:
@@ -305,8 +370,3 @@ while floor <= 15:
             floor += 1
             time.sleep(2)
             break
-
-
-# print(f"장비를 획득했습니다! {wood_clup.name}")
-# 장비 인스턴스 넣고 이 부분에서 wood_clup.show_item()으로 정보 보여준 다음에
-# player.equip_wepon(wood_clup)으로 장착 함수 돌릴 수 있을까요
