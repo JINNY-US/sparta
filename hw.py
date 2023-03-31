@@ -111,7 +111,7 @@ class Junk(Item):
 
     def use(self, player):
         print(f"{player.name}이(가) {self.name}을(를) 사용합니다.")
-        print(f"하지만 효과가 없습니다...{self.name}은 쓸모가 없습니다...")
+        print(f"하지만 효과가 없습니다...{self.name}은 쓸모가 없습니다...버리시길..")
 
 
 player_name = input("플레이어의 이름을 입력하세요: ")
