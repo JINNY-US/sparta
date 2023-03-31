@@ -1,4 +1,5 @@
 import random
+import pygame
 
 
 class Character:
@@ -21,7 +22,8 @@ class Character:
         self.weapon = None
         self.armor = None
 
-    # 일반공격
+        # 일반공격
+
     def normal_attack(self, target):
         attack_damage = random.randint(
             int(self.normal_damage*0.8), int(self.normal_damage*1.3))
@@ -198,6 +200,12 @@ class Monster:
         self.alive = True
         self.level = level
         self.exp = exp
+        # 몬스터 효과음
+        pygame.mixer.init()  # pygame 모듈 초기화
+
+    def attack(self):
+        # 몬스터가 일반공격을 할 때 효과음 재생
+        pygame.mixer.Sound("bgm/monster_hit.wav").play()
 
     def normal_attack(self, target):
         attack_damage = random.randint(

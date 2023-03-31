@@ -14,6 +14,11 @@ def view_monsters():
     for i, monster in enumerate(monster_list):
         print(f"{i+1}. ", end="")
         monster.update_status()
+# 새페이지
+
+
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 # 다음 출력을 새페이지로 넘김
 
@@ -50,7 +55,6 @@ for g in tqdm(range(10)):
     time.sleep(0.1)
 clear()
 # 오프닝 끝
-
 
 # 플레이어 이름 생성
 print("플레이어 이름 입력 :  ")
@@ -93,7 +97,7 @@ while True:
         you = classes.Warrior(f"{character_name}", 300,
                               200, stat_str, stat_dex, stat_int)
         skill_name = "파이참"
-        skill_mp = 20
+        skill_mp = 15
         weapon_list = classes.warrior_weapon_list
         armor_list = classes.warrior_armor_list
         break
@@ -154,7 +158,7 @@ while floor <= 15:
         monster.alive = True
 
     clear()
-    print(f"{floor}층에 입장했습니다. 이곳에서는 {len(monster_list)}마리의 몬스터와 전투합니다.")
+    print(f"어금니의{floor}층에 입장했습니다. 이곳에서는 {len(monster_list)}마리의 몬스터와 전투합니다.")
     time.sleep(0.5)
 
     while True:
@@ -171,8 +175,12 @@ while floor <= 15:
             print(f"\n공격 방식을 고르세요.\n 1: 일반 공격 2: 스킬 공격({skill_name}) 3: 게임 종료")
             action = input()
             if action == "1":
+                you.play_sound_effect("bgm/attack_normal.wav")
+                you.attack_hit()
                 break
             elif action == "2":
+                you.play_sound_effect("bgm/attack_magic.wav")
+                you.magic_hit()
                 break
             elif action == "3":
                 print("어금니 탑을 탈출합니다.")
@@ -290,7 +298,6 @@ while floor <= 15:
         # 몬스터가 살아있는 경우 몬스터가 플레이어를 공격하기
         for monster in monster_list:
             monster.normal_attack(you)
-
             # 플레이어가 죽은 경우 게임 종료하기
             if not you.alive:
                 print("당신은 죽었습니다. 게임 오버")
