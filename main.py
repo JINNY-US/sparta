@@ -5,6 +5,7 @@ import pygame
 import os
 import sys
 import classes
+import math
 
 
 # 몬스터 정보 보여주기 함수
@@ -187,11 +188,35 @@ while floor <= 15:
             if monster.alive == False:
                 delete_monster_list.append(i)
 
-                # 몬스터 사망시 아이템 획득
-
                 # 몬스터 사망시 경험치 획득
                 you.current_exp += monster.exp
                 print(f"{monster.name}을(를) 처치하여 {monster.exp}의 경험치를 얻었습니다.")
+
+                # 몬스터 사망시 30% 확률로 포션 획득
+                if random.random() < 0.4:
+                    potion = random.choice(classes.potions)
+                    print(f"보상으로 {potion.name}을 얻었습니다.")
+                    potion.use(you)
+                    you.update_status()
+                # 몬스터 사망시 15% 확률로 무기 획득
+                if random.random() < 0.2:
+                    floor_level = math.ceil(floor/3) + 1
+                    weapon_names = list(weapon_list.keys())
+                    random_weapon = random.choice(weapon_names[:floor_level])
+                    weapon = weapon_list[random_weapon]
+                    print(f"{random_weapon}을 획득했습니다.")
+                    weapon.show_item()
+                    you.equip_weapon(weapon)
+
+                # 몬스터 사망시 15% 확률로 방어구 획득
+                if random.random() < 0.2:
+                    floor_level = math.ceil(floor/5) + 1
+                    armor_names = list(armor_list.keys())
+                    random_armor = random.choice(armor_names[:floor_level])
+                    armor = armor_list[random_armor]
+                    print(f"{random_armor}을 획득했습니다.")
+                    armor.show_item()
+                    you.equip_armor(armor)
 
                 # 레벨업
                 if you.current_exp >= you.max_exp:
