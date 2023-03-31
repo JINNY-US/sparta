@@ -5,7 +5,6 @@ import pygame
 import os
 import sys
 import classes
-import math
 
 
 # 몬스터 정보 보여주기 함수
@@ -14,13 +13,18 @@ def view_monsters():
     for i, monster in enumerate(monster_list):
         print(f"{i+1}. ", end="")
         monster.update_status()
+# 새페이지
+
+
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 
 # 오프닝 시작
 # 플레이어 생성 배경음악
 pygame.init()  # pygame을 진행할 때 꼭 초기화를 해줘야한다.
 
-loading_sound = pygame.mixer.Sound("./bgm/loding.mp3")
+loading_sound = pygame.mixer.Sound("bgm/loding.mp3")
 loading_sound.play()  # -1 을 하면 무한 반복한다.(게임이 끝나면 꺼짐)
 loading_sound.set_volume(0.1)
 
@@ -32,14 +36,20 @@ for line in lines:
     time.sleep(0.06)
 f.close()
 time.sleep(0.5)
+clear()
 
 # 다음 출력을 새페이지로 넘김
 
-
-def clear():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-
+f = open("img/fq.txt", 'r', encoding='UTF8')
+lines = f.readlines()
+for line in lines:
+    line = line.strip()     # 줄 끝의 줄 바꿈 문자를 제거한다.
+    print(line)
+    time.sleep(0.06)
+f.close()
+time.sleep(0.5)
+clear()
+# 로딩창
 print("Loading...")
 time.sleep(1)
 clear()
@@ -50,6 +60,32 @@ for g in tqdm(range(10)):
     time.sleep(0.1)
 clear()
 # 오프닝 끝
+
+
+# @@@@@@@앞 스토리@@@@@@@@@@@@@@
+# print("어금니의 탑에 오신걸 환영합니다!!")
+# time.sleep(3)
+# clear()
+
+# print("어금니 탑을 공략하기 앞서 간단한 설명 드리겠읍니다!!")
+# time.sleep(3)
+# clear()
+
+# print("1. 총 15층이 있고 1층 올라갈수록 몬스터들이 강해집니다!!")
+# time.sleep(3)
+# clear()
+
+# print("2.몬스터를 잡으면 템,포션을 드랍할 수 있습니다.(꽝 나옴!!)")
+# time.sleep(3)
+# clear()
+
+# print("3.5층씩 올라 갈때마다 보스가 등장하며, 보스 전 층에 레어 몬스터가 있습니다!!")
+# time.sleep(3)
+# clear()
+
+# print("그럼,어금니 탑에 입장하겠습니다!")
+# time.sleep(3)
+# clear()
 
 
 # 플레이어 이름 생성
@@ -129,7 +165,7 @@ while floor <= 15:
         monster.alive = True
 
     clear()
-    print(f"{floor}층에 입장했습니다. 이곳에서는 {len(monster_list)}마리의 몬스터와 전투합니다.")
+    print(f"어금니의{floor}층에 입장했습니다. 이곳에서는 {len(monster_list)}마리의 몬스터와 전투합니다.")
     time.sleep(0.5)
     # 14층에 대한 이벤트 작성 칸...나중에 입력할게요 넵
 
@@ -147,8 +183,12 @@ while floor <= 15:
             print(f"\n공격 방식을 고르세요.\n 1: 일반 공격 2: 스킬 공격({skill_name})")
             action = input()
             if action == "1":
+                you.play_sound_effect("bgm/attack_normal.wav")
+                you.attack_hit()
                 break
             elif action == "2":
+                you.play_sound_effect("bgm/attack_magic.wav")
+                you.magic_hit()
                 break
             else:
                 print("잘못 고르셨습니다. 다시 선택해주세요.")
@@ -188,35 +228,11 @@ while floor <= 15:
             if monster.alive == False:
                 delete_monster_list.append(i)
 
+                # 몬스터 사망시 아이템 획득
+
                 # 몬스터 사망시 경험치 획득
                 you.current_exp += monster.exp
                 print(f"{monster.name}을(를) 처치하여 {monster.exp}의 경험치를 얻었습니다.")
-
-                # 몬스터 사망시 30% 확률로 포션 획득
-                if random.random() < 0.4:
-                    potion = random.choice(classes.potions)
-                    print(f"보상으로 {potion.name}을 얻었습니다.")
-                    potion.use(you)
-                    you.update_status()
-                # 몬스터 사망시 15% 확률로 무기 획득
-                if random.random() < 0.2:
-                    floor_level = math.ceil(floor/3) + 1
-                    weapon_names = list(weapon_list.keys())
-                    random_weapon = random.choice(weapon_names[:floor_level])
-                    weapon = weapon_list[random_weapon]
-                    print(f"{random_weapon}을 획득했습니다.")
-                    weapon.show_item()
-                    you.equip_weapon(weapon)
-
-                # 몬스터 사망시 15% 확률로 방어구 획득
-                if random.random() < 0.2:
-                    floor_level = math.ceil(floor/5) + 1
-                    armor_names = list(armor_list.keys())
-                    random_armor = random.choice(armor_names[:floor_level])
-                    armor = armor_list[random_armor]
-                    print(f"{random_armor}을 획득했습니다.")
-                    armor.show_item()
-                    you.equip_armor(armor)
 
                 # 레벨업
                 if you.current_exp >= you.max_exp:
@@ -263,7 +279,6 @@ while floor <= 15:
         # 몬스터가 살아있는 경우 몬스터가 플레이어를 공격하기
         for monster in monster_list:
             monster.normal_attack(you)
-
             # 플레이어가 죽은 경우 게임 종료하기
             if not you.alive:
                 print("당신은 죽었습니다. 게임 오버")
