@@ -24,7 +24,7 @@ loading_sound = pygame.mixer.Sound("./bgm/loding.mp3")
 loading_sound.play()  # -1 을 하면 무한 반복한다.(게임이 끝나면 꺼짐)
 loading_sound.set_volume(0.1)
 
-f = open("img/fd.txt", 'r', encoding='UTF8')
+f = open("img/fq.txt", 'r', encoding='UTF8')
 lines = f.readlines()
 for line in lines:
     line = line.strip()     # 줄 끝의 줄 바꿈 문자를 제거한다.
@@ -93,7 +93,7 @@ while True:
         you = classes.Warrior(f"{character_name}", 300,
                               200, stat_str, stat_dex, stat_int)
         skill_name = "파이참"
-        skill_mp = 20
+        skill_mp = 15
         weapon_list = classes.warrior_weapon_list
         armor_list = classes.warrior_armor_list
         break
